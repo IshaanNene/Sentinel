@@ -5,6 +5,7 @@ import (
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/mem"
 	"github.com/shirou/gopsutil/v3/net"
+	"time"
 )
 
 func GetCPUUsage() (float64, error) {
@@ -77,4 +78,169 @@ func GetDiskReadWriteStats() (map[string]disk.IOCountersStat, error) {
 
 func GetCPUFrequency() ([]cpu.InfoStat, error) {
 	return cpu.Info()
+}
+
+
+func GetDiskInodes() (uint64, uint64, error) {
+	inodeStat, err := disk.Usage("/")
+	if err != nil {
+		return 0, 0, err
+	}
+	return inodeStat.InodesUsed, inodeStat.InodesFree, nil
+}
+
+func GetMemorySwapTotal() (uint64, error) {
+	swapStat, err := mem.SwapMemory()
+	if err != nil {
+		return 0, err
+	}
+	return swapStat.Total, nil
+}
+
+func GetMemorySwapUsed() (uint64, error) {
+	swapStat, err := mem.SwapMemory()
+	if err != nil {
+		return 0, err
+	}
+	return swapStat.Used, nil
+}
+
+func GetDiskReadBytes() (uint64, error) {
+	stats, err := disk.IOCounters()
+	if err != nil {
+		return 0, err
+	}
+	var totalRead uint64
+	for _, stat := range stats {
+		totalRead += stat.ReadBytes
+	}
+	return totalRead, nil
+}
+
+func GetDiskWriteBytes() (uint64, error) {
+	stats, err := disk.IOCounters()
+	if err != nil {
+		return 0, err
+	}
+	var totalWrite uint64
+	for _, stat := range stats {
+		totalWrite += stat.WriteBytes
+	}
+	return totalWrite, nil
+}
+
+func GetNetworkSentBytes() (uint64, error) {
+	stats, err := net.IOCounters(true)
+	if err != nil {
+		return 0, err
+	}
+	var totalSent uint64
+	for _, stat := range stats {
+		totalSent += stat.BytesSent
+	}
+	return totalSent, nil
+}
+
+func GetNetworkReceivedBytes() (uint64, error) {
+	stats, err := net.IOCounters(true)
+	if err != nil {
+		return 0, err
+	}
+	var totalReceived uint64
+	for _, stat := range stats {
+		totalReceived += stat.BytesRecv
+	}
+	return totalReceived, nil
+}
+
+func GetCPUPercentages(interval float64) ([]float64, error) {
+	return cpu.Percent(time.Duration(interval * float64(time.Second)), true)
+}
+
+func GetDiskFree() (uint64, error) {
+	diskStat, err := disk.Usage("/")
+	if err != nil {
+		return 0, err
+	}
+	return diskStat.Free, nil
+}
+
+func GetMemoryFree() (uint64, error) {
+	vmStat, err := mem.VirtualMemory()
+	if err != nil {
+		return 0, err
+	}
+	return vmStat.Free, nil
+}
+
+func GetCPUIdle() (float64, error) {
+	percentages, err := cpu.Percent(0, false)
+	if err != nil {
+		return 0, err
+	}
+	return 100 - percentages[0], nil
+}
+
+func GetDiskInodesUsed() (uint64, error) {
+	inodeStat, err := disk.Usage("/")
+	if err != nil {
+		return 0, err
+	}
+	return inodeStat.InodesUsed, nil
+}
+
+func GetDiskInodesFree() (uint64, error) {
+	inodeStat, err := disk.Usage("/")
+	if err != nil {
+		return 0, err
+	}
+	return inodeStat.InodesFree, nil
+}
+
+func GetNetworkPacketsSent() (uint64, error) {
+	stats, err := net.IOCounters(true)
+	if err != nil {
+		return 0, err
+	}
+	var totalPacketsSent uint64
+	for _, stat := range stats {
+		totalPacketsSent += stat.PacketsSent
+	}
+	return totalPacketsSent, nil
+}
+
+func GetNetworkPacketsReceived() (uint64, error) {
+	stats, err := net.IOCounters(true)
+	if err != nil {
+		return 0, err
+	}
+	var totalPacketsReceived uint64
+	for _, stat := range stats {
+		totalPacketsReceived += stat.PacketsRecv
+	}
+	return totalPacketsReceived, nil
+}
+
+func GetSwapTotal() (uint64, error) {
+	swapStat, err := mem.SwapMemory()
+	if err != nil {
+		return 0, err
+	}
+	return swapStat.Total, nil
+}
+
+func GetSwapUsed() (uint64, error) {
+	swapStat, err := mem.SwapMemory()
+	if err != nil {
+		return 0, err
+	}
+	return swapStat.Used, nil
+}
+
+func GetSwapFree() (uint64, error) {
+	swapStat, err := mem.SwapMemory()
+	if err != nil {
+		return 0, err
+	}
+	return swapStat.Free, nil
 }

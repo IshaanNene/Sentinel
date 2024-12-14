@@ -16,7 +16,7 @@ func FormatBytes(bytes uint64) string {
 		div *= unit
 		exp++
 	}
-	return fmt.Sprintf("%.1f %cB", float64(bytes)/float64(div), "KMGTPE"[exp])
+	return fmt.Sprintf("%.1f %sB", float64(bytes)/float64(div), "KMGTPE"[exp:exp+1])
 }
 
 func LogToFile(filename string, data string) error {
