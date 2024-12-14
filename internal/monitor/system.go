@@ -304,6 +304,10 @@ func GetDiskWriteBytesPerSecond() (uint64, error) {
 	return totalWrite / uint64(time.Now().Unix()), nil
 }
 
+func GetClocksPerSecond() (uint64) {
+	return uint64(cpu.ClocksPerSec)
+}
+
 func GetDiskReadBytesPerSecond() (uint64, error) {
 	stats, err := disk.IOCounters()
 	if err != nil {

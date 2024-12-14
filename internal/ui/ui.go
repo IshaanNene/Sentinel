@@ -3,7 +3,6 @@ package ui
 import (
 	"fmt"
 	"time"
-
 	"github.com/rivo/tview"
 	"goscope/internal/monitor"
 	"goscope/pkg/utils"
@@ -12,9 +11,7 @@ import (
 func StartUI() {
 	app := tview.NewApplication()
 	textView := tview.NewTextView().SetDynamicColors(true).SetTextAlign(tview.AlignLeft)
-
 	diskIOStats, _ := monitor.GetDiskIOStats()
-
 	go func() {
 		for {
 			cpuUsage, _ := monitor.GetCPUUsage()
