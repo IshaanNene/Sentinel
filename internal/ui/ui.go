@@ -41,6 +41,7 @@ func StartUI() {
 				"[yellow]CPU USAGE:[white] %.2f%% (CORES: %d)\n"+
 				"[yellow]MEMORY USAGE:[white] %.2f%% (%s / %s)\n"+
 				"[yellow]DISK USAGE:[white] %.2f%% (%s / %s)\n"+
+				"[yellow]DISK TOTAL:[white] %s\n"+
 				"[yellow]SWAP USAGE:[white] %.2f%% (%s / %s)\n"+
 				"[yellow]DISK FREE:[white] %s\n"+
 				"[yellow]MEMORY FREE:[white] %s\n"+
@@ -49,6 +50,7 @@ func StartUI() {
 				"[yellow]NETWORK STATS:[white]\n",
 				cpuUsage, cpuCount, memUsage, utils.FormatBytes(memUsed), utils.FormatBytes(memTotal),
 					diskUsage, utils.FormatBytes(diskUsed), utils.FormatBytes(diskTotal),
+					utils.FormatBytes(diskTotal),
 					(float64(swapUsed)/float64(swapTotal))*100, utils.FormatBytes(swapUsed), utils.FormatBytes(swapTotal),
 					utils.FormatBytes(diskFree), utils.FormatBytes(memFree),
 					cpuIdle, utils.FormatBytes(diskInodesUsed), utils.FormatBytes(diskInodesFree),
