@@ -51,7 +51,7 @@
 - **🌐 Network**: Monitor network activity, including bytes sent and received.
 
 ## 📸 Screenshots
-<img width="256" alt="Screenshot 2024-12-15 at 2 25 08 PM" src="https://github.com/user-attachments/assets/40935754-4b0e-44e6-9321-bf3279208368" />
+<img width="512" alt="Screenshot 2024-12-15 at 2 25 08 PM" src="https://github.com/user-attachments/assets/40935754-4b0e-44e6-9321-bf3279208368" />
 
 
 ## 🛠️ Future Enhancements
