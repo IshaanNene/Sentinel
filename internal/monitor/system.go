@@ -400,6 +400,7 @@ func GetMemoryTotalSwap() (uint64, error) {
 	}
 	return swapStat.Total, nil
 }
+
 func GetNetworkPacketsDropped() (uint64, error) {
 	stats, err := net.IOCounters(true)
 	if err != nil {
@@ -435,4 +436,59 @@ func GetDiskTotalUsed() (uint64, error) {
 		return 0, err
 	}
 	return diskStat.Used, nil
+}
+
+func GetCPUStealTime() (float64, error) {
+	cpuStat, err := cpu.Times(false)
+	if err != nil {
+		return 0, err
+	}
+	if len(cpuStat) == 0 {
+		return 0, nil
+	}
+	return cpuStat[0].Steal, nil
+}
+
+func GetNetworkTotalErrors() (uint64, error) {
+	stats, err := net.IOCounters(true)
+	if err != nil {
+		return 0, err
+	}
+	var totalErrors uint64
+	for _, stat := range stats {
+		totalErrors += stat.Errin + stat.Errout
+	}
+	return totalErrors, nil
+}
+
+func GetMemoryAvailable() (uint64, error) {
+	vmStat, err := mem.VirtualMemory()
+	if err != nil {
+		return 0, err
+	}
+	return vmStat.Available, nil
+}
+
+func GetDiskSerialNumber() (string, error) {
+	stats, err := disk.IOCounters()
+	if err != nil {
+		return "", err
+	}
+	for _, stat := range stats {
+		if stat.SerialNumber != "" {
+			return stat.SerialNumber, nil
+		}
+	}
+	return "", nil
+}
+
+func GetCPUNice() (float64, error) {
+	cpuStat, err := cpu.Times(false)
+	if err != nil {
+		return 0, err
+	}
+	if len(cpuStat) == 0 {
+		return 0, nil
+	}
+	return cpuStat[0].Nice, nil
 }
