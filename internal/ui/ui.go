@@ -20,6 +20,7 @@ func StartUI() {
 		SetTitle(" 🖥️  SENTINEL SYSTEM MONITOR ").
 		SetTitleAlign(tview.AlignCenter).
 		SetBorderColor(tview.Styles.BorderColor)
+	
 	var diskIOStatsMutex sync.RWMutex
 	diskIOStats, _ := monitor.GetDiskIOStats()
 	ticker := time.NewTicker(1 * time.Second)
@@ -99,62 +100,62 @@ func StartUI() {
 			stats := <-statsChan
 			cpuFrequency := stats.cpuFrequencyInfo[len(stats.cpuFrequencyInfo)-1]
 			output := fmt.Sprintf(
-				"\n[::b]╔══════════════════════ SYSTEM RESOURCES ════════════════════╗[::-]\n\n"+
-					"[yellow::b]CPU INFORMATION[white]\n"+
-					"  [red]►[white] Usage: [red]%.2f%%[white] | Cores: [green]%d[white] | Idle: [blue]%.2f%%[white]\n"+
-					"  [red]►[white] Temperature: [red]%.2f°C[white] | User Time: [cyan]%.2f[white] | System Time: [cyan]%.2f[white]\n"+
-					"  [red]►[white] Model: [magenta]%s[white]\n"+
-					"  [red]►[white] Frequency: [magenta]%.2f MHz[white]\n\n"+
-					"[yellow::b]MEMORY UTILIZATION[white]\n"+
-					"  [blue]►[white] Usage: [red]%.2f%%[white] (%s / %s)\n"+
-					"  [blue]►[white] Free: [green]%s[white] | Cached: [blue]%s[white] | Buffers: [cyan]%s[white]\n"+
-					"  [blue]►[white] Total Used: [magenta]%s[white]\n"+
-					"  [blue]►[white] Swap: [magenta]%.2f%%[white] (%s / %s)\n"+
-					"  [blue]►[white] Swap Free: [green]%s[white]\n\n"+
-					"[yellow::b]STORAGE STATUS[white]\n"+
-					"  [green]►[white] Usage: [red]%.2f%%[white] (%s / %s)\n"+
-					"  [green]►[white] Free Space: [green]%s[white]\n"+
-					"  [green]►[white] Inodes: Used: [blue]%s[white] | Free: [green]%s[white] | Total: [cyan]%d[white]\n"+
-					"  [green]►[white] Total Used: [magenta]%s[white]\n"+
-					"  [green]►[white] I/O Activity: Read: [magenta]%s/s[white] | Write: [magenta]%s/s[white]\n\n"+
-					"[yellow::b]NETWORK METRICS[white]\n"+
-					"  [magenta]►[white] Packets: Sent: [green]%d[white] | Received: [blue]%d[white] | Dropped: [red]%d[white]\n",
-				stats.cpuUsage, stats.cpuCount, stats.cpuIdle,
-				stats.cpuTemp, stats.cpuUserTime, stats.cpuSystemTime,
-				cpuFrequency.ModelName, cpuFrequency.Mhz,
-				stats.memUsage, utils.FormatBytes(stats.memUsed), utils.FormatBytes(stats.memTotal),
-				utils.FormatBytes(stats.memFree), utils.FormatBytes(stats.memCached), utils.FormatBytes(stats.memBuffers),
-				utils.FormatBytes(stats.memTotalUsed),
-				(float64(stats.swapUsed)/float64(stats.swapTotal))*100, utils.FormatBytes(stats.swapUsed), utils.FormatBytes(stats.swapTotal), utils.FormatBytes(stats.swapFree),
-				stats.diskUsage, utils.FormatBytes(stats.diskUsed), utils.FormatBytes(stats.diskTotal),
-				utils.FormatBytes(stats.diskFree),
-				utils.FormatBytes(stats.diskInodesUsed), utils.FormatBytes(stats.diskInodesFree), stats.diskTotalInodes,
-				utils.FormatBytes(stats.diskTotalUsed),
-				utils.FormatBytes(stats.diskReadBytes), utils.FormatBytes(stats.diskWriteBytes),
-				stats.netPacketsSent, stats.netPacketsRecv, stats.netPacketsDrop,
-			)
+    "\n[yellow::b]╔══════════════════════ SYSTEM RESOURCES ════════════════════╗[::-]\n\n"+
+    "[yellow::b]CPU INFORMATION\n"+
+    "  [red]► Usage: %.2f%% | Cores: [green]%d | Idle: [blue]%.2f%%\n"+
+    "  [red]► Temperature: %.2f°C | User Time: [cyan]%.2f | System Time: [cyan]%.2f\n"+
+    "  [red]► Model: [magenta]%s\n"+
+    "  [red]► Frequency: [magenta]%.2f MHz\n\n"+
+    "[yellow::b]MEMORY UTILIZATION\n"+
+    "  [blue]► Usage: [red]%.2f%% (%s / %s)\n"+
+    "  [blue]► Free: [green]%s | Cached: [blue]%s | Buffers: [cyan]%s\n"+
+    "  [blue]► Total Used: [magenta]%s\n"+
+    "  [blue]► Swap: [magenta]%.2f%% (%s / %s)\n"+
+    "  [blue]► Swap Free: [green]%s\n\n"+
+    "[yellow::b]STORAGE STATUS\n"+
+    "  [green]► Usage: [red]%.2f%% (%s / %s)\n"+
+    "  [green]► Free Space: [green]%s\n"+
+    "  [green]► Inodes: Used: [blue]%s | Free: [green]%s | Total: [cyan]%d\n"+
+    "  [green]► Total Used: [magenta]%s\n"+
+    "  [green]► I/O Activity: Read: [magenta]%s/s | Write: [magenta]%s/s\n\n"+
+    "[yellow::b]NETWORK METRICS\n"+
+    "  [magenta]► Packets: Sent: [green]%d | Received: [blue]%d | Dropped: [red]%d\n",
+    stats.cpuUsage, stats.cpuCount, stats.cpuIdle,
+    stats.cpuTemp, stats.cpuUserTime, stats.cpuSystemTime,
+    cpuFrequency.ModelName, cpuFrequency.Mhz,
+    stats.memUsage, utils.FormatBytes(stats.memUsed), utils.FormatBytes(stats.memTotal),
+    utils.FormatBytes(stats.memFree), utils.FormatBytes(stats.memCached), utils.FormatBytes(stats.memBuffers),
+    utils.FormatBytes(stats.memTotalUsed),
+    (float64(stats.swapUsed)/float64(stats.swapTotal))*100, utils.FormatBytes(stats.swapUsed), utils.FormatBytes(stats.swapTotal), utils.FormatBytes(stats.swapFree),
+    stats.diskUsage, utils.FormatBytes(stats.diskUsed), utils.FormatBytes(stats.diskTotal),
+    utils.FormatBytes(stats.diskFree),
+    utils.FormatBytes(stats.diskInodesUsed), utils.FormatBytes(stats.diskInodesFree), stats.diskTotalInodes,
+    utils.FormatBytes(stats.diskTotalUsed),
+    utils.FormatBytes(stats.diskReadBytes), utils.FormatBytes(stats.diskWriteBytes),
+    stats.netPacketsSent, stats.netPacketsRecv, stats.netPacketsDrop,
+)
 
-			output += "\n[yellow::b]NETWORK INTERFACES[white]\n"
+			output += "\n[yellow::b]NETWORK INTERFACES\n"
 			for _, stat := range stats.netStats {
-				output += fmt.Sprintf("  [cyan]►[white] [green::b]%s[white]\n    ↑ [blue]%s/s[white] | ↓ [blue]%s/s[white]\n",
+				output += fmt.Sprintf("  [cyan]► [green::b]%s\n    ↑ [blue]%s/s | ↓ [blue]%s/s\n",
 					stat.Name, utils.FormatBytes(stat.BytesSent), utils.FormatBytes(stat.BytesRecv))
 			}
 
-			output += "\n[yellow::b]DISK I/O STATISTICS[white]\n"
+			output += "\n[yellow::b]DISK I/O STATISTICS\n"
 			diskIOStatsMutex.RLock()
 			if diskIOStats != nil {
 				for device, stats := range diskIOStats {
-					output += fmt.Sprintf("  [cyan]►[white] [green::b]%s[white]\n    ↑ [blue]%s/s[white] | ↓ [blue]%s/s[white]\n",
+					output += fmt.Sprintf("  [cyan]► [green::b]%s\n    ↑ [blue]%s/s | ↓ [blue]%s/s\n",
 						device, utils.FormatBytes(stats.ReadBytes), utils.FormatBytes(stats.WriteBytes))
 				}
 			} else {
-				output += "  [red]No disk I/O statistics available[white]\n"
+				output += "  [red]No disk I/O statistics available\n"
 			}
 			diskIOStatsMutex.RUnlock()
-			output += "\n[::b]╚═════════════════════════ [white]Auto-refresh: 1s[white] ═════════════════════════╝[::-]\n"
+			output += "\n[yellow::b]╚═════════════════════════ Auto-refresh: 1s ═════════════════════════╝[::-]\n"
 			app.QueueUpdateDraw(func() {
 				textView.SetText(output)
-				textView.ScrollToBeginning()
+				// textView.ScrollToBeginning()
 			})			
 		}
 	}()
