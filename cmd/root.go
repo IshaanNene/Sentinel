@@ -13,7 +13,7 @@ var rootCmd = &cobra.Command{
 	Short: "GoScope is a lightweight system monitoring tool.",
 	Long:  `GoScope monitors CPU, memory, disk, and network usage with a TUI.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		ui.StartUI()
+		ui.StartGUI()
 	},
 }
 
