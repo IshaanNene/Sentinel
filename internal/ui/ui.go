@@ -82,7 +82,7 @@ func StartUI() {
 				stats.cpuFrequencyInfo, _ = monitor.GetCPUFrequency()
 				stats.diskReadBytes, _ = monitor.GetDiskReadBytes()
 				stats.diskWriteBytes, _ = monitor.GetDiskWriteBytes()
-				stats.cpuTemp, _ = monitor.GetCPUTemperature()
+				stats.cpuTemp = monitor.GetCPUTemperature()
 				stats.memCached, _ = monitor.GetMemoryCached()
 				stats.memBuffers, _ = monitor.GetMemoryBuffers()
 				stats.netPacketsSent, _ = monitor.GetNetworkPacketsSent()
